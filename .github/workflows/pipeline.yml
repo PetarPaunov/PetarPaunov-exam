@@ -24,6 +24,7 @@ jobs:
       run: npm run test:unit
     - name: Dispay SoftUni Username
       run: echo "PetarPaunov"
+
   deploy:
     runs-on: ubuntu-latest
     needs: build-and-test
@@ -38,3 +39,22 @@ jobs:
         build-and-test:
     - name: Waits 120sec bofore executing next step
       run: sleep 120
+      
+  run-ui-tests:
+
+    runs-on: ubuntu-latest
+    needs: deploy
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js 18.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.x
+        cache: 'npm'
+    - name: Install the required packages 
+      run: npm install
+    - name: Setup playwright
+      run: npx playwright install
+    - name: Run UI Tests
+      run: npm run test:ui
