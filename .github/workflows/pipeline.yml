@@ -1,0 +1,26 @@
+name: CI-CD-pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js 18.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.x
+        cache: 'npm'
+    - name: Install the required packages 
+      run: npm install
+    - name: Run unit Tests
+      run: npm run test:unit
+    - name: Dispay SoftUni Username
+      run: echo "PetarPaunov"
